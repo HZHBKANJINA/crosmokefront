@@ -95,7 +95,7 @@ export default {
         ukupan_broj_pravilnog_stavljanja:'',
         ukupan_broj_trikova:'',
         anketa:'',
-        spremi_anketu:''
+        spremi_anketu:null
       },
       ankete:[]
     }
@@ -143,7 +143,7 @@ export default {
             ukupan_broj_pravilnog_stavljanja:'',
             ukupan_broj_trikova:'',
             anketa:'',
-            spremi_anketu:''
+            spremi_anketu:null
           }
           alert('Član je dodan');
         }else{

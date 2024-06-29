@@ -40,8 +40,8 @@ const routes = [
     props:true
   },
   {
-    path:'/sezone',
-    name:'sezone',
+    path:'/cigare',
+    name:'cigare',
     component:CigaretteView,
     props:true,
   },

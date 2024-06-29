@@ -316,7 +316,7 @@ export default {
         console.error('Greška',error);
         alert('Greška na serveru');
       }
-    }
+    },
   },
   mounted(){
     this.dobaviSezonu();

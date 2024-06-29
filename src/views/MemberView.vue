@@ -47,27 +47,27 @@
     <tbody>
         <tr v-for="clan in clanovi" :value="clan._id" :key="clan._id">
           <td>{{ clan.broj_clana }}</td>
-          <td>{{ clan.pitanje_za_lizanje }}</td>
-          <td>{{ clan.aktivnost_clana }}</td>
-          <td>{{ clan.glavni_nacin_obrade_cigare }}</td>
+          <td :class="pzlKlasa(clan)">{{ clan.pitanje_za_lizanje }}</td>
+          <td class="obicna">{{ clan.aktivnost_clana }}</td>
+          <td :class="radnaKlasa(clan)">{{ clan.glavni_nacin_obrade_cigare }}</td>
           <td>{{ clan.ukupan_broj_sezona }}</td>
           <td>{{ clan.ukupan_broj_cigara}}</td>
           <td>{{ clan.ukupan_broj_EU_cigara }}</td>
           <td>{{ clan.ukupan_broj_meksanih_cigara }}</td>
-          <td>{{ clan.glavni_nacin_meksanja }}</td>
+          <td class="obicna">{{ clan.glavni_nacin_meksanja }}</td>
           <td>{{ clan.meksanje_pritiskanjem }}</td>
           <td>{{ clan.meksanje_rolanjem }}</td>
           <td>{{ clan.meksanje_povlacenjem }}</td>
           <td>{{ clan.meksanje_udaranje_filtera }}</td>
           <td>{{ clan.meksanje_kombinacija_svih_nacina }}</td>
           <td>{{ clan.ukupan_broj_grickanih_cigara }}</td>
-          <td>{{ clan.glavni_nacin_grickanja }}</td>
+          <td class="obicna">{{ clan.glavni_nacin_grickanja }}</td>
           <td>{{ clan.grickanje_vrha }}</td>
           <td>{{ clan.grickanje_psk_ili_kombinacija }}</td>
           <td>{{ clan.grickanje_cijele_strane }}</td>
           <td>{{ clan.grickanje_sa_svih_strana }}</td>
           <td>{{ clan.ukupan_broj_lizanih_cigara }}</td>
-          <td>{{ clan.glavni_nacin_lizanja }}</td>
+          <td class="obicna">{{ clan.glavni_nacin_lizanja }}</td>
           <td>{{ clan.lizanje_tockasti_vrh }}</td>
           <td>{{ clan.lizanje_uspravni_vrh }}</td>
           <td>{{ clan.lizanje_kosi_vrh }}</td>
@@ -80,9 +80,9 @@
           <td>{{ clan.lizanje_2_cijele_strane_i_pola_strane }}</td>
           <td>{{ clan.lizanje_3_cijele_strane }}</td>
           <td>{{ clan.lizanje_sa_svih_strana }}</td>
-          <td>{{ clan.ukupan_broj_pravilnog_stavljanja }}</td>
-          <td>{{ clan.ukupan_broj_trikova }}</td>
-          <td>{{ clan.anketa }}</td>
+          <td :class="pravilnoStavljanje(clan)">{{ clan.ukupan_broj_pravilnog_stavljanja }}</td>
+          <td :class="ukupnoTrikova(clan)">{{ clan.ukupan_broj_trikova }}</td>
+          <td :class="odradjenaAnketa(clan)">{{ clan.anketa }}</td>
           <td class="granica"></td>
           <td class="granica"></td>
           <td class="granica"></td>
@@ -238,6 +238,50 @@ export default {
         alert('Greška na serveru');
       }
     },
+    pzlKlasa(clan){
+      if(clan.pitanje_za_lizanje==='DA'){
+        return 'zelena';
+      }else{
+        return 'crvena';
+      }
+    },
+    radnaKlasa(clan){
+      const kljucnaRijec='lizanje';
+      if(clan.glavni_nacin_obrade_cigare.toLowerCase().includes(kljucnaRijec)){
+        return 'specijalna';
+      }else{
+        return 'obicna';
+      }
+    },
+    pravilnoStavljanje(clan){
+      if(clan.ukupan_broj_pravilnog_stavljanja>0){
+        return 'zelena';
+      }else if(clan.ukupan_broj_pravilnog_stavljanja==='UVIJEK'){
+        return 'zelena';
+      }else if(clan.ukupan_broj_pravilnog_stavljanja==='POVREMENO'){
+        return 'zelena';
+      }else{
+        return 'crvena';
+      }
+    },
+    ukupnoTrikova(clan){
+      if(clan.ukupan_broj_trikova>0){
+        return 'zelena';
+      }else if(clan.ukupan_broj_trikova==='UVIJEK'){
+        return 'zelena';
+      }else if(clan.ukupan_broj_trikova==='POVREMENO'){
+        return 'zelena';
+      }else{
+        return 'crvena';
+      }
+    },
+    odradjenaAnketa(clan){
+      if(clan.anketa==='DA'){
+        return 'zelena';
+      }else{
+        return 'crvena';
+      }
+    }
   },
   mounted(){
     this.dobaviClanove();
@@ -269,4 +313,20 @@ tbody td {
 .granica{
   background-color: blue;
 }
+.crvena{
+  background-color: red;
+}
+.narancasta{
+  background-color: orange;
+}
+.zelena{
+  background-color: #22DD22;
+}
+.obicna{
+  background-color: #6FC0DB;
+}
+.specijalna{
+  background-color: #5ADCAD;
+}
 </style>
+
