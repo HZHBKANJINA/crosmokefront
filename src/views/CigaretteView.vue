@@ -39,26 +39,26 @@
         <th class="header-cell"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="cigara in cigare" :key="cigara._id" :style="{ backgroundColor: cigara.boja }">
+    <tbody v-if="cigare.length">
+      <tr v-for="cigara in filtriraneCigare"  :key="cigara._id" :style="{ backgroundColor: cigara.boja }">
         <td>{{ cigara.broj_cigare }}</td>
         <td>{{ cigara.meksanje }}</td>
-        <td>{{ cigara.tip_meksanja }}</td>
+        <td>{{ cigara.tip_meksanja.naziv }}</td>
         <td>{{ cigara.bodovi_meksanja }}</td>
         <td>{{ cigara.grickanje }}</td>
-        <td>{{ cigara.tip_grickanja }}</td>
+        <td>{{ cigara.tip_grickanja.naziv }}</td>
         <td>{{ cigara.bodovi_grickanja }}</td>
         <td>{{ cigara.lizanje }}</td>
-        <td>{{ cigara.tip_lizanja }}</td>
+        <td>{{ cigara.tip_lizanja.naziv }}</td>
         <td>{{ cigara.bodovi_lizanja }}</td>
         <td>{{ cigara.pravilno_stavljanje }}</td>
-        <td>{{ cigara.tip_stavljanja }}</td>
+        <td>{{ cigara.tip_stavljanja.naziv }}</td>
         <td>{{ cigara.bodovi_pravilnog_stavljanja }}</td>
         <td>{{ cigara.trik }}</td>
-        <td>{{ cigara.tip_trikova }}</td>
+        <td>{{ cigara.tip_trikova.naziv }}</td>
         <td>{{ cigara.bodovi_trikova }}</td>
         <td>{{ cigara.ostali_nacin_obrade }}</td>
-        <td>{{ cigara.tip_ostalog_nacina_obrade }}</td>
+        <td>{{ cigara.tip_ostalog_nacina_obrade.naziv }}</td>
         <td>{{ cigara.bodovi_ostalog_nacina_obrade }}</td>
         <td>{{ cigara.pravilne_cigare }}</td>
         <td></td>

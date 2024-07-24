@@ -7,6 +7,8 @@ import CigaretteView from '@/views/CigaretteView.vue'
 import NovaPocetna from '@/views/NovaPocetna.vue'
 import MemberView from '@/views/MemberView.vue'
 import PoolView from '@/views/PoolView.vue'
+import AddVipCig from '@/components/AddVipCig.vue'
+import UpdateMember from '@/components/UpdateMember.vue'
 
 
 const routes = [
@@ -57,6 +59,16 @@ const routes = [
     component:PoolView,
     props:true
   },
+  {
+    path:'/addvipcig',
+    name:'addvipcig',
+    component:AddVipCig
+  },
+  {
+    path:'/update',
+    name:'update',
+    component:UpdateMember
+  }
 ]
 
 const router = createRouter({

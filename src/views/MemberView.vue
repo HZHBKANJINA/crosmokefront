@@ -50,7 +50,7 @@
           <td :class="pzlKlasa(clan)">{{ clan.pitanje_za_lizanje }}</td>
           <td class="obicna">{{ clan.aktivnost_clana }}</td>
           <td :class="radnaKlasa(clan)">{{ clan.glavni_nacin_obrade_cigare }}</td>
-          <td>{{ clan.ukupan_broj_sezona }}</td>
+          <td class="obicna">{{ clan.ukupan_broj_sezona }}</td>
           <td>{{ clan.ukupan_broj_cigara}}</td>
           <td>{{ clan.ukupan_broj_EU_cigara }}</td>
           <td>{{ clan.ukupan_broj_meksanih_cigara }}</td>
@@ -69,7 +69,7 @@
           <td>{{ clan.ukupan_broj_lizanih_cigara }}</td>
           <td class="obicna">{{ clan.glavni_nacin_lizanja }}</td>
           <td>{{ clan.lizanje_tockasti_vrh }}</td>
-          <td>{{ clan.lizanje_uspravni_vrh }}</td>
+          <td :class="uvKlasa(clan)">{{ clan.lizanje_uspravni_vrh }}</td>
           <td>{{ clan.lizanje_kosi_vrh }}</td>
           <td>{{ clan.lizanje_vodoravni_vrh }}</td>
           <td>{{ clan.lizanje_pola_strane }}</td>
@@ -215,17 +215,32 @@
       </tr>
     </tbody>
   </table>
+  <div class="button">
+    <button @click="otvoriDialog">AŽURIRAJ ČLANA</button>
+    <ModalComponent v-if="dialogOtvoren" @zatvori="zatvoriDialog">
+      <UpdateMember @zatvori="zatvoriDialog"/>
+      <button @click="zatvoriDialog" class="close">X</button>
+    </ModalComponent>
+  </div>
 </template>
 
 <script>
 
+import ModalComponent from '../components/ModalComponent.vue';
+import UpdateMember from '../components/UpdateMember.vue';
 import axios from 'axios';
 
 export default {
   name: 'MemberView',
+  components: {
+    ModalComponent,
+    UpdateMember
+  },
   data(){
     return{
-      clanovi:[]
+      clanovi:[],
+      cigare:[],
+      dialogOtvoren: false,
     }
   },
   methods:{
@@ -233,9 +248,38 @@ export default {
       try{
         const respone=await axios.get('http://localhost:3000/clanovi');
         this.clanovi=respone.data;
+        this.povecajUv();
       }catch(error){
         console.error('Greška',error);
         alert('Greška na serveru');
+      }
+    },
+    async dobaviCigare(){
+      try{
+        const respone=await axios.get('http://localhost:3000/cigare');
+        this.cigare=respone.data;
+        this.povecajUv();
+      }catch(error){
+        console.error('Greška',error);
+        alert('Greška na serveru');
+      }
+    },
+    povecajUv(){
+      this.cigare.forEach(cigara=>{
+        if(cigara.tip_lizanja==='USPRAVNI VRH'){
+          this.clanovi.forEach(clan=>{
+            if(clan._id===cigara.clan){
+              cigara.lizanje_uspravni_vrh +=1;
+            }
+          });
+        }
+      });
+    },
+    uvKlasa(clan){
+      if(clan.lizanje_uspravni_vrh===0){
+        return 'crvena';
+      }else{
+        return 'zelena';
       }
     },
     pzlKlasa(clan){
@@ -281,10 +325,17 @@ export default {
       }else{
         return 'crvena';
       }
-    }
+    },
+    otvoriDialog() {
+      this.dialogOtvoren = true;
+    },
+    zatvoriDialog() {
+      this.dialogOtvoren = false;
+    },
   },
   mounted(){
     this.dobaviClanove();
+    this.dobaviCigare();
   }
 }
 </script>
@@ -310,6 +361,9 @@ tbody td {
   border: 1px solid black; /* Granice tijela tablice */
   text-align: center; /* Centriranje teksta u tijelu tablice */
 }
+table{
+  margin-bottom: 30px;
+}
 .granica{
   background-color: blue;
 }
@@ -327,6 +381,12 @@ tbody td {
 }
 .specijalna{
   background-color: #5ADCAD;
+}
+.close {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
 }
 </style>
 

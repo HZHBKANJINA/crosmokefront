@@ -16,6 +16,10 @@
           <option v-for="sezona in sezone" :value="sezona._id" :key="sezona._id">{{ sezona.broj }}-{{ sezona.naziv }}</option>
         </select>
       </div>
+      <div class="clan">
+        <label for="broj_cigare">UNESI BROJ CIGARE</label>
+        <input type="number" v-model="novaCigara.broj_cigare" id="broj_cigare">
+      </div>
       <label for="meksanje" class="centered-label">MEKŠANJE</label>
       <div class="main-div">
         <div class="sub-div">
